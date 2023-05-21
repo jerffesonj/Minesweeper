@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8149376662169941212}
   - component: {fileID: 8149376662169941213}
   - component: {fileID: 5207936806413444535}
+  - component: {fileID: 4514024373876449597}
   m_Layer: 5
   m_Name: Cell
   m_TagString: Untagged
@@ -51,9 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd571c55c33196478ea941d86f1e289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasBomb: 0
-  isOpen: 0
-  isFlagged: 0
 --- !u!114 &5207936806413444535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +79,23 @@ MonoBehaviour:
   cellBombSprite: {fileID: 938674953, guid: 537596a1bc3efda40bb1ee029a7103f5, type: 3}
   flagSprite: {fileID: 1307073116, guid: 537596a1bc3efda40bb1ee029a7103f5, type: 3}
   wrongFlag: {fileID: 290808657, guid: 537596a1bc3efda40bb1ee029a7103f5, type: 3}
+--- !u!114 &4514024373876449597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149376662169941211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b13ea29d9b7744499ae01bae5d46a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  explosion: {fileID: 8300000, guid: 1bb0bea20d6491b4fa058b486fa5c0c7, type: 3}
+  select: {fileID: 8300000, guid: 9305931f95ef7574c98c6e7d8924e35f, type: 3}
+  flag: {fileID: 8300000, guid: f67faa709f020194d8f75b9a5da9c4c3, type: 3}
+  flagError: {fileID: 8300000, guid: 32eba18f1783cbe4cb9594d6a6be3d45, type: 3}
 --- !u!1 &8149376662367098865
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,11 +6,13 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
     private BoardScript boardScript;
     private GameController gameController;
     private CellSprite cellSprite;
+    private CellSounds cellSound;
     private Vector2Int currentPosition;
 
     private bool hasBomb;
     private bool isOpen;
     private bool isFlagged;
+    private bool usedBomb;
 
     public Vector2Int CurrentPosition { get => currentPosition; set => currentPosition = value; }
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
@@ -26,6 +28,7 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
         boardScript = FindObjectOfType<BoardScript>();
         gameController = FindObjectOfType<GameController>();
         cellSprite = GetComponent<CellSprite>();
+        cellSound = GetComponent<CellSounds>();
     }
 
     public void ShowBomb()
@@ -34,7 +37,12 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
         {
             if (!isFlagged)
             {
-                cellSprite.BombSprite();
+                if (!usedBomb)
+                {
+                    cellSprite.BombSprite();
+                    cellSound.ExplosionSFX();
+                    usedBomb = true;
+                }
             }
         }
         else
@@ -42,6 +50,7 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
             if (isFlagged)
             {
                 cellSprite.WrongFlag();
+                cellSound.FlagErrorSFX();
             }
         }
         onFlagChanged?.Invoke();
@@ -63,6 +72,8 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
             ActiveFlag();
         else
             DeactiveFlag();
+
+        cellSound.FlagSFX();
     }
 
     public void ActiveFlag()
@@ -72,6 +83,8 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
             cellSprite.FlagSprite();
             isFlagged = true;
             gameController.FlagCount -= 1;
+
+            boardScript.AllCellFlagged.Add(this);
         }
         onFlagChanged?.Invoke();
     }
@@ -83,6 +96,8 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
             cellSprite.CloseSprite();
             isFlagged = false;
             gameController.FlagCount += 1;
+
+            boardScript.AllCellFlagged.Remove(this);
         }
         onFlagChanged?.Invoke();
     }
@@ -96,6 +111,8 @@ public class CellScript : MonoBehaviour, IPointerClickHandler
             return;
         if (gameController.GameEnded)
             return;
+
+        cellSound.SelectSFX();
 
         isOpen = true;
 

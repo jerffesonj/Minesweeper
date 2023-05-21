@@ -15,9 +15,11 @@ public class BoardScript : MonoBehaviour
 
     private static CellScript[,] matrix;
     private List<CellScript> allCellBombed = new List<CellScript>();
+    private List<CellScript> allCellFlagged = new List<CellScript>();
     private List<CellScript> allCells = new List<CellScript>();
 
     public int NumCellsOpened { get => numCellsOpened; set => numCellsOpened = value; }
+    public List<CellScript> AllCellFlagged { get => allCellFlagged; }
 
     public static CellScript GetCell(int x, int y) { return matrix[x, y]; }
     public static CellScript GetCell(Vector2Int position) { return matrix[position.x, position.y]; }
@@ -131,6 +133,8 @@ public class BoardScript : MonoBehaviour
         }
     }
 
+    public static float TotalTimeToShowBombs = 0.5f;
+
     public void ShowAllBombs()
     {
         StartCoroutine(ShowBombEnum());
@@ -148,17 +152,11 @@ public class BoardScript : MonoBehaviour
             }
         }
 
-        foreach (CellScript cell in allCells)
+        foreach (CellScript cell in allCellFlagged)
         {
-            if (cell.IsOpen)
-                continue;
-            if (cell.HasBomb || cell.IsFlagged)
-            {
-                cell.ShowBomb();
-                yield return new WaitForSeconds(0.2f);
-            }
+            cell.ShowBomb();
+            yield return new WaitForSeconds(0.5f);
         }
     }
-    
 }
 

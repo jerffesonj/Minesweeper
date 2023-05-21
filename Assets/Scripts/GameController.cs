@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,10 @@ public class GameController : MonoBehaviour
     private int flagCount;
     private float gameTime;
     private bool gameEnded;
+
+    public AudioSource audioSource;
+    public AudioClip win;
+    public AudioClip lose;
 
     public delegate void OnEndGame();
     public static event OnEndGame onGameWon;
@@ -19,6 +24,8 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         boardScript = GetComponent<BoardScript>();
+        audioSource = GameObject.FindGameObjectWithTag("AudioSource").GetComponent<AudioSource>();
+
         flagCount = BoardScript.MAX_BOMBS;
     }
     
@@ -26,6 +33,15 @@ public class GameController : MonoBehaviour
     {
         if (!gameEnded)
             gameTime += Time.deltaTime;
+    }
+
+    public void WinSFX()
+    {
+        audioSource.PlayOneShot(win);
+    }
+    public void LoseSFX()
+    {
+        audioSource.PlayOneShot(lose);
     }
 
     public string GetCurrentTime()
@@ -63,19 +79,24 @@ public class GameController : MonoBehaviour
 
     public void PlayerWon()
     {
+        WinSFX();
+
         gameEnded = true;
 
         boardScript.ShowAllFlagsWithBombs();
-
         onGameWon?.Invoke();
     }
+
     public void PlayerLose()
     {
+        LoseSFX();
+
         gameEnded = true;
 
         boardScript.ShowAllBombs();
         onGameLost?.Invoke();
     }
+    
     public void ResetGame()
     {
         SceneManager.LoadScene(0);

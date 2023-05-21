@@ -11,9 +11,6 @@ public class CanvasScript : MonoBehaviour
     [SerializeField] private Image smiley;
     [SerializeField] private Sprite[] smileyFaces;
 
-    public delegate void OnFlagChange(int value);
-    public static event OnFlagChange onFlagUsed;
-
     private void Start()
     {
         gameController = FindObjectOfType<GameController>();
